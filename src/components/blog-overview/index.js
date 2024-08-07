@@ -40,7 +40,7 @@ const BlogOverview = ({ blogList }) => {
     try {
       setLoading(true);
       const apiResponse = currentEditedBlogID !== null
-        ? await fetch(`/api/update-blog?=${currentEditedBlogID}`, {
+        ? await fetch(`/api/update-blog?id=${currentEditedBlogID}`, {
           method: "PUT",
           body: JSON.stringify(blogFormData),
         })
@@ -74,7 +74,6 @@ const BlogOverview = ({ blogList }) => {
       });
 
       const result = await apiResponse.json();
-
       if (result?.success) router.refresh();
 
     } catch (e) {
@@ -84,14 +83,15 @@ const BlogOverview = ({ blogList }) => {
 
 
   // handle editing blog
-  async function HandleEdit(getCurrentBlog) {
-    setCurrentEditedBlogID(getCurrentBlog?._id)
+  function handleEdit(getCurrentBlog) {
+    setCurrentEditedBlogID(getCurrentBlog?._id);
     setBlogFormData({
       title: getCurrentBlog?.title,
       description: getCurrentBlog?.description,
-    })
-    setOpenBlogDialog(true)
+    });
+    setOpenBlogDialog(true);
   }
+
 
   console.log(currentEditedBlogID);
 
@@ -111,14 +111,16 @@ const BlogOverview = ({ blogList }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
         {
           blogList && blogList.length > 0 ? (
-            blogList.map(blogItem => (
-              <Card className="p-5" key={blogItem?._id}>
+            blogList.map((blogItem) => (
+              <Card className="p-5" key={blogItem._id}>
                 <CardContent>
                   <CardTitle className="mb-5">{blogItem?.title}</CardTitle>
                   <CardDescription>{blogItem?.description}</CardDescription>
                   <div className="mt-5 flex gap-5 items-center">
-                    <Button onClick={() => HandleEdit(blogItem)}>Edit</Button>
-                    <Button onClick={() => handleDeleteBlogByID(blogItem._id)}>Delete</Button>
+                    <Button onClick={() => handleEdit(blogItem)}>Edit</Button>
+                    <Button onClick={() => handleDeleteBlogByID(blogItem._id)}>
+                      Delete
+                      </Button>
                   </div>
                 </CardContent>
               </Card>
