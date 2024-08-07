@@ -83,7 +83,7 @@ const AddNewBlog = ({
                     </div>
                     <DialogFooter>
                         <Button onClick={handleSaveBlogData} type="button">
-                            {loading ? "Saving changes" : "Save  changes"}
+                            {loading ? "Saving changes" : "Save changes"}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

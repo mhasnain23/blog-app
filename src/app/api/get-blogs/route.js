@@ -2,13 +2,13 @@ import connectToDB from "@/database";
 import Blog from "@/models/blog";
 import { NextResponse } from "next/server";
 
-
-
 export async function GET() {
     try {
-
+        // Connect to the database
         await connectToDB();
-        const extractAllBlogsFromDatabase = Blog.find({})
+
+        // Retrieve all blogs from the database
+        const extractAllBlogsFromDatabase = await Blog.find({});
 
         if (extractAllBlogsFromDatabase) {
             return NextResponse.json({
@@ -16,10 +16,10 @@ export async function GET() {
                 data: extractAllBlogsFromDatabase,
             });
         } else {
-            console.log(error);
-            NextResponse.json({
+            console.log("No blogs found");
+            return NextResponse.json({
                 success: false,
-                message: "Something went wrong! please try again",
+                message: "No blogs found",
             });
         }
 
@@ -27,7 +27,7 @@ export async function GET() {
         console.log(error);
         return NextResponse.json({
             success: false,
-            message: "Something went wrong! please try again",
+            message: "Something went wrong! Please try again",
         });
     }
 }

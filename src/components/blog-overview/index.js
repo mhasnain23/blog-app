@@ -2,7 +2,16 @@
 
 import { useEffect, useState } from "react"
 import AddNewBlog from "../add-new-blog";
-import { Card, CardContent, CardDescription, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardFooter,
+  CardDescription,
+  CardTitle
+} from "../ui/card";
+
+
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { useRouter } from "next/navigation";
@@ -75,11 +84,11 @@ const BlogOverview = ({ blogList }) => {
 
 
   // handle editing blog
-  async function HandleEdit(getCurrentBlogID) {
-    setCurrentEditedBlogID(getCurrentBlogID?._id)
+  async function HandleEdit(getCurrentBlog) {
+    setCurrentEditedBlogID(getCurrentBlog?._id)
     setBlogFormData({
-      title: getCurrentBlogID?.title,
-      description: getCurrentBlogID?.description,
+      title: getCurrentBlog?.title,
+      description: getCurrentBlog?.description,
     })
     setOpenBlogDialog(true)
   }
@@ -101,20 +110,22 @@ const BlogOverview = ({ blogList }) => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
         {
-          blogList && blogList.length > 0 ?
-            blogList.map(blogItem => {
-              <Card className="p-5">
+          blogList && blogList.length > 0 ? (
+            blogList.map(blogItem => (
+              <Card className="p-5" key={blogItem?._id}>
                 <CardContent>
                   <CardTitle className="mb-5">{blogItem?.title}</CardTitle>
                   <CardDescription>{blogItem?.description}</CardDescription>
-                  <div className="mt-5 flex items-center">
+                  <div className="mt-5 flex gap-5 items-center">
                     <Button onClick={() => HandleEdit(blogItem)}>Edit</Button>
                     <Button onClick={() => handleDeleteBlogByID(blogItem._id)}>Delete</Button>
                   </div>
                 </CardContent>
               </Card>
-            })
-            : <Label className="text-3xl font-extrabold">No blog found! please add new blog</Label>
+            ))
+          ) : (
+            <Label className="text-3xl font-extrabold">No blog found! please add new blog</Label>
+          )
         }
       </div>
     </div>
