@@ -6,7 +6,6 @@ async function fetchListOfBlogs() {
   try {
     const apiResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-blogs`, {
       method: 'GET',
-      cache: "no-store",
     })
 
     const result = await apiResponse.json();
