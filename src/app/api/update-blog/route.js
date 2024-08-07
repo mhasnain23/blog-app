@@ -35,7 +35,7 @@ export async function PUT(req) {
             });
         }
 
-        const updateBlogByBlogID = await Blog.findByIdAndUpdate(getCurrentBlogID,
+        const updateBlogByBlogID = await Blog.findByIdAndUpdate(
             {
                 _id: getCurrentBlogID,
             },
